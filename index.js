@@ -99,7 +99,7 @@ app.post("/folklore", (req, res)=>{
         })
 
 
-    //now we create the endpoint for delete users 
+    //now we create the endpoint for delete users in bellydance
 app.delete("/bellydance/:id", (req,res)=>{
     const bellydanceId = req.params.id
     const q = "DELETE FROM bellydance WHERE id = ?"
@@ -109,7 +109,7 @@ app.delete("/bellydance/:id", (req,res)=>{
         return res.json("se elimino correctamente")
     } )
 })
-
+//now we create the endpoint for delete users in folklore
 app.delete("/folklore/:id", (req,res)=>{
     const folkloreId = req.params.id
     const q = "DELETE FROM folklore WHERE id = ?"
@@ -119,7 +119,7 @@ app.delete("/folklore/:id", (req,res)=>{
         return res.json("se elimino correctamente")
     } )
 })
-
+//now we create the endpoint for delete users in ballet
 app.delete("/ballet/:id", (req,res)=>{
     const balletId = req.params.id
     const q = "DELETE FROM ballet WHERE id = ?"
@@ -129,3 +129,4 @@ app.delete("/ballet/:id", (req,res)=>{
         return res.json("se elimino correctamente")
     } )
 })
+
