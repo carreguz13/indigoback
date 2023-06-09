@@ -4,6 +4,8 @@ import cors from "cors"
 
 const app = express()
 
+//npm start to start the express server with nodemon that allow us to re-run the server when we save a change to not put node index.js
+
 
 //start connection with mysql
 //ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_current_password';
@@ -66,7 +68,7 @@ const values = [
 ]
 db.query(q, [values], (err,data) =>{
     if(err) return res.json(err)
-return res.json("se postulo bien perro")
+return res.json("se postuló bien")
 })
 })
 
@@ -79,7 +81,7 @@ app.post("/folklore", (req, res)=>{
     ]
     db.query(q, [values], (err,data) =>{
         if(err) return res.json(err)
-    return res.json("se postulo bien perro")
+    return res.json("se postuló bien")
     })
     })
 
@@ -92,6 +94,38 @@ app.post("/folklore", (req, res)=>{
         ]
         db.query(q, [values], (err,data) =>{
             if(err) return res.json(err)
-        return res.json("se postulo bien perro")
+        return res.json("se postuló bien")
         })
         })
+
+
+    //now we create the endpoint for delete users 
+app.delete("/bellydance/:id", (req,res)=>{
+    const bellydanceId = req.params.id
+    const q = "DELETE FROM bellydance WHERE id = ?"
+
+    db.query(q, [bellydanceId], (err,data) => {
+        if(err) return res.json(err)
+        return res.json("se elimino correctamente")
+    } )
+})
+
+app.delete("/folklore/:id", (req,res)=>{
+    const folkloreId = req.params.id
+    const q = "DELETE FROM folklore WHERE id = ?"
+
+    db.query(q, [folkloreId], (err,data) => {
+        if(err) return res.json(err)
+        return res.json("se elimino correctamente")
+    } )
+})
+
+app.delete("/ballet/:id", (req,res)=>{
+    const balletId = req.params.id
+    const q = "DELETE FROM ballet WHERE id = ?"
+
+    db.query(q, [balletId], (err,data) => {
+        if(err) return res.json(err)
+        return res.json("se elimino correctamente")
+    } )
+})
