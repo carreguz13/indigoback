@@ -6,7 +6,7 @@ const app = express()
 
 //npm start to start the express server with nodemon that allow us to re-run the server when we save a change to not put node index.js
 
-
+    
 //start connection with mysql
 //ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_current_password';
 
@@ -49,23 +49,20 @@ app.get("/folklore", (req, res)=>{
     })
     })
     
-app.get("/ballet", (req, res)=>{
-    const q = "SELECT * FROM indigo.ballet"
-    db.query(q, (err, data)=>{
-    if(err) return res.json(err)
-    return res.json(data)
-    })
-    })
 
 
 //now we need to create the post method because we want to put information into this list in the server with post 
 app.post("/bellydance", (req, res)=>{
-const q = "INSERT INTO bellydance (nombre, edad, grupo) VAlUES (?)"
+const q = "INSERT INTO bellydance (nombre, apellido, edad, fecha_de_nacimiento, direccion, grupo, fecha_de_registro) VAlUES (?)"
 const values = [
     req.body.nombre,
+    req.body.apellido,
     req.body.edad,
-    req.body.grupo
-]
+    req.body.fecha_de_nacimiento,
+    req.body.direccion,
+    req.body.grupo,
+    req.body.fecha_de_registro
+    ]
 db.query(q, [values], (err,data) =>{
     if(err) return res.json(err)
 return res.json("se postuló bien")
@@ -73,11 +70,15 @@ return res.json("se postuló bien")
 })
 
 app.post("/folklore", (req, res)=>{
-    const q = "INSERT INTO folklore (nombre, edad, grupo) VAlUES (?)"
+    const q = "INSERT INTO folklore (nombre, apellido, edad, fecha_de_nacimiento, direccion, grupo, fecha_de_registro) VAlUES (?)"
     const values = [
         req.body.nombre,
-        req.body.edad,
-        req.body.grupo
+    req.body.apellido,
+    req.body.edad,
+    req.body.fecha_de_nacimiento,
+    req.body.direccion,
+    req.body.grupo,
+    req.body.fecha_de_registro
     ]
     db.query(q, [values], (err,data) =>{
         if(err) return res.json(err)
@@ -85,18 +86,6 @@ app.post("/folklore", (req, res)=>{
     })
     })
 
-    app.post("/ballet", (req, res)=>{
-        const q = "INSERT INTO ballet (nombre, edad, grupo) VAlUES (?)"
-        const values = [
-            req.body.nombre,
-            req.body.edad,
-            req.body.grupo
-        ]
-        db.query(q, [values], (err,data) =>{
-            if(err) return res.json(err)
-        return res.json("se postuló bien")
-        })
-        })
 
 
     //now we create the endpoint for delete users in bellydance
@@ -119,14 +108,45 @@ app.delete("/folklore/:id", (req,res)=>{
         return res.json("se elimino correctamente")
     } )
 })
-//now we create the endpoint for delete users in ballet
-app.delete("/ballet/:id", (req,res)=>{
-    const balletId = req.params.id
-    const q = "DELETE FROM ballet WHERE id = ?"
 
-    db.query(q, [balletId], (err,data) => {
+//this endpoint its for edit the bellydance array and folcklore
+app.put("/bellydance/:id", (req,res)=>{
+    const bellydanceId = req.params.id
+    const q = "UPDATE bellydance SET `nombre`= ?, `apellido`= ?, `edad`= ?, `fecha_de_nacimiento`= ?, `direccion`= ?, `grupo`= ?, `fecha_de_registro`= ? WHERE id = ?"
+
+    const values = [
+    req.body.nombre,
+    req.body.apellido,
+    req.body.edad,
+    req.body.fecha_de_nacimiento,
+    req.body.direccion,
+    req.body.grupo,
+    req.body.fecha_de_registro
+    ]
+
+    db.query(q, [...values, bellydanceId], (err,data) => {
         if(err) return res.json(err)
-        return res.json("se elimino correctamente")
+        return res.json("se editó correctamente")
+    } )
+})
+
+app.put("/folklore/:id", (req,res)=>{
+    const folkloreId = req.params.id
+    const q = "UPDATE folklore SET `nombre`= ?, `apellido`= ?, `edad`= ?, `fecha_de_nacimiento`= ?, `direccion`= ?, `grupo`= ?, `fecha_de_registro`= ? WHERE id = ?"
+
+    const values = [
+    req.body.nombre,
+    req.body.apellido,
+    req.body.edad,
+    req.body.fecha_de_nacimiento,
+    req.body.direccion,
+    req.body.grupo,
+    req.body.fecha_de_registro
+    ]
+
+    db.query(q, [...values, folkloreId], (err,data) => {
+        if(err) return res.json(err)
+        return res.json("se editó correctamente")
     } )
 })
 
